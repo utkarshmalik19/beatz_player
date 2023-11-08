@@ -26,19 +26,24 @@ class _HomePageState extends State<HomePage> {
     fetchAudioFiles();
   }
 
-  Future<void> fetchAudioFiles() async {
+   Future<void> fetchAudioFiles() async {
     PermissionStatus status = await Permission.storage.request();
 
     if (status.isGranted) {
       List<String> audioExtensions = ['.mp3', '.m4a', '.flac'];
       List<FileSystemEntity> audioFiles = [];
-      Directory directory = Directory(
-          '/storage/emulated/0/Music'); // Update this path to the desired directory
+      List<Directory> searchDirectories = [];
+      searchDirectories.add(Directory('/storage/emulated/0'));
 
-      if (directory.existsSync()) {
-        await _findAudioFiles(directory, audioExtensions, audioFiles);
-      } else {
-        print("Directory does not exist: ${directory.path}");
+      for (var directory in searchDirectories) {
+        try {
+          if (directory.existsSync() &&
+              !directory.path.contains("/Android/data/")) {
+            await _findAudioFiles(directory, audioExtensions, audioFiles);
+          }
+        } catch (e) {
+          print("Error accessing directory: ${directory.path}");
+        }
       }
 
       for (var file in audioFiles) {
@@ -99,6 +104,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppConstants.bgColor,
       appBar: AppBar(
+        leading: Icon(Icons.menu),
         backgroundColor: AppConstants.bgColor,
         elevation: 0,
         title: Text(
