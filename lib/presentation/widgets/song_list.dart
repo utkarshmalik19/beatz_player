@@ -1,33 +1,37 @@
-// song_list.dart
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:beatz_player/models/song.dart';
-import 'package:beatz_player/services/audio_player_service.dart';
+import 'package:beatz_player/utils/consts.dart';
 import 'package:flutter/material.dart';
 
-
-class SongList extends StatelessWidget {
+class SongList extends StatefulWidget {
   final List<Song> songs;
-
-  SongList({required this.songs});
+  final void Function(int index) playSong;
+  const SongList({super.key, required this.songs, required this.playSong});
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: songs.length,
-      itemBuilder: (context, index) {
-        final song = songs[index];
-        return ListTile(
-          title: Text(song.name),
-          subtitle: Text('${song.artist} - ${song.album}'),
-          onTap: () async{
-            // Implement song playback here
-            final player = AudioPlayer();
-await player.play(UrlSource(song.url));
+  State<SongList> createState() => _SongListState();
+}
 
-            //AudioPlayerService.playSong(song.url); // Pass the song URL
-          },
-        );
-      },
-    );
+class _SongListState extends State<SongList> {
+  @override
+  Widget build(BuildContext context) {
+    return  ListView.builder(
+              itemCount: widget.songs.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(15)
+                    ),
+                    child: ListTile(
+                      onTap: () => widget.playSong(index),
+                      title: Text(widget.songs[index].title, style: AppConstants.bigTextStyle,),
+                    ),
+                  ),
+                );
+              },
+            );
   }
 }
