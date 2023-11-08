@@ -22,8 +22,6 @@ class _HomePageState extends State<HomePage> {
   int selectedSongIndex = -1; // Keep track of the selected song index
   @override
   void initState() {
-    // TODO: implement initState
-    print('init called');
     super.initState();
     fetchAudioFiles();
   }
@@ -39,8 +37,6 @@ class _HomePageState extends State<HomePage> {
       '.flac'
     ];
     List<FileSystemEntity> audioFiles = [];
-
-    // Specify the directory where you believe the audio files are located
     Directory directory = Directory('/storage/emulated/0/Music'); // Update this path to the desired directory
 
     if (directory.existsSync()) {
@@ -73,25 +69,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
-  // Future<void> fetchAudioFiles() async {
-  //   PermissionStatus status = await Permission.storage.status;
-  //   if (status.isGranted) {
-  //     Directory directory = Directory('/storage/emulated/0/Music'); // Adjust the path to your music folder
-  //     List<FileSystemEntity> files = directory.listSync();
-
-  //       for (var file in files) {
-  //       final fileExtension = extension(file.path).toLowerCase();
-  //       if (extension == '.mp3' || extension == '.m4a' || extension == '.flac') {
-  //         songs.add(basename(file.path));
-  //       }
-  //     }
-
-  //     setState(() {});
-  //   } else {
-  //     // Handle permission denied
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
