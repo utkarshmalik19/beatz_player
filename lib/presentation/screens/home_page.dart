@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
       body: songs.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SongList(songs: songs, playSong: playSong),
-      bottomNavigationBar: BottomMusicBar(
+      bottomNavigationBar: selectedSongIndex ==-1 ? null: BottomMusicBar(
           currentSongTitle: songs[selectedSongIndex].title,
           currentSongArtist: songs[selectedSongIndex].artist,
           audioPlayer: audioPlayer,),

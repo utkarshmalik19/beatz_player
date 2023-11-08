@@ -17,7 +17,7 @@ class BottomMusicBar extends StatefulWidget {
 }
 
 class _BottomMusicBarState extends State<BottomMusicBar> {
-    final ValueNotifier<PlayerState> _playerStateNotifier = ValueNotifier(PlayerState.paused);
+    final ValueNotifier<PlayerState> _playerStateNotifier = ValueNotifier(PlayerState.playing);
   @override
   void initState() {
     // TODO: implement initState

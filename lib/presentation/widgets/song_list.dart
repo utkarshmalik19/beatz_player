@@ -26,7 +26,7 @@ class _SongListState extends State<SongList> {
                       borderRadius: BorderRadius.circular(15)
                     ),
                     child: ListTile(
-                      trailing: Icon(Icons.more_vert, color: Colors.white,),
+                      trailing: const Icon(Icons.more_vert, color: Colors.white,),
                       onTap: () => widget.playSong(index),
                       title: Text(widget.songs[index].title, style: AppConstants.bigTextStyle,),
                     ),
