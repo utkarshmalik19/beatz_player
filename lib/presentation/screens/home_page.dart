@@ -33,7 +33,9 @@ class _HomePageState extends State<HomePage> {
       List<String> audioExtensions = ['.mp3', '.m4a', '.flac'];
       List<FileSystemEntity> audioFiles = [];
       List<Directory> searchDirectories = [];
-      searchDirectories.add(Directory('/storage/emulated/0'));
+      searchDirectories.add(Directory('/storage/emulated/0/'));
+      
+      
 
       for (var directory in searchDirectories) {
         try {
