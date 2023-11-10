@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:beatz_player/models/song.dart';
+import 'package:beatz_player/presentation/screens/current_song_screen.dart';
 import 'package:beatz_player/presentation/widgets/bottom_music_bar.dart';
 import 'package:beatz_player/presentation/widgets/song_list.dart';
 import 'package:beatz_player/utils/consts.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     fetchAudioFiles();
   }
 
-   Future<void> fetchAudioFiles() async {
+  Future<void> fetchAudioFiles() async {
     PermissionStatus status = await Permission.storage.request();
 
     if (status.isGranted) {
@@ -34,8 +35,6 @@ class _HomePageState extends State<HomePage> {
       List<FileSystemEntity> audioFiles = [];
       List<Directory> searchDirectories = [];
       searchDirectories.add(Directory('/storage/emulated/0/'));
-      
-      
 
       for (var directory in searchDirectories) {
         try {
@@ -117,10 +116,21 @@ class _HomePageState extends State<HomePage> {
       body: songs.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SongList(songs: songs, playSong: playSong),
-      bottomNavigationBar: selectedSongIndex ==-1 ? null: BottomMusicBar(
-          currentSongTitle: songs[selectedSongIndex].title,
-          currentSongArtist: songs[selectedSongIndex].artist,
-          audioPlayer: audioPlayer,),
+      bottomNavigationBar: selectedSongIndex == -1
+          ? null
+          : GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CurrentSongScreen()),
+                );
+              },
+              child: BottomMusicBar(
+                currentSongTitle: songs[selectedSongIndex].title,
+                currentSongArtist: songs[selectedSongIndex].artist,
+                audioPlayer: audioPlayer,
+              ),
+            ),
     );
   }
 }

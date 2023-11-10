@@ -6,6 +6,7 @@ class BottomMusicBar extends StatefulWidget {
   final String currentSongTitle;
   final String currentSongArtist;
   final AudioPlayer audioPlayer;
+  
   const BottomMusicBar(
       {super.key,
       required this.currentSongTitle,
