@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Song> songs = [];
   AudioPlayer audioPlayer = AudioPlayer();
+   bool? isPlaying;
   int selectedSongIndex = -1; // Keep track of the selected song index
   @override
   void initState() {
@@ -100,6 +101,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void isPlayingValue() {
+    if (audioPlayer.state == PlayerState.playing) {
+      setState(() {
+        isPlaying = true;
+      });
+    } else if (audioPlayer.state == PlayerState.paused) {
+      setState(() {
+        isPlaying = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,9 +133,14 @@ class _HomePageState extends State<HomePage> {
           ? null
           : GestureDetector(
               onTap: () {
+                isPlayingValue();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CurrentSongScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => CurrentSongScreen(
+                            audioPlayer: audioPlayer,
+                            isPlaying: isPlaying!,
+                          )),
                 );
               },
               child: BottomMusicBar(

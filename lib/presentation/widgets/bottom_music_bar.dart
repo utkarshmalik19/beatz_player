@@ -21,7 +21,6 @@ class _BottomMusicBarState extends State<BottomMusicBar> {
     final ValueNotifier<PlayerState> _playerStateNotifier = ValueNotifier(PlayerState.playing);
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
      // Listen to changes in the player state
     widget.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {

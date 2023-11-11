@@ -1,7 +1,30 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:beatz_player/utils/consts.dart';
 import 'package:flutter/material.dart';
 
-class CurrentSongScreen extends StatelessWidget {
+class CurrentSongScreen extends StatefulWidget {
+  final AudioPlayer audioPlayer;
+  final bool isPlaying;
+
+  const CurrentSongScreen({super.key, required this.audioPlayer, required this.isPlaying});
+  @override
+  State<CurrentSongScreen> createState() => _CurrentSongScreenState();
+}
+
+class _CurrentSongScreenState extends State<CurrentSongScreen> {
+     late bool isPlaying ;
+
+    @override
+  void initState() {
+    super.initState();
+    // Listen to changes in the player state
+    isPlaying = widget.isPlaying;
+    widget.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
+      setState(() {
+        isPlaying = state == PlayerState.playing;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,20 +53,36 @@ class CurrentSongScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.skip_previous,
-                  color: Colors.white,
+                IconButton(
+                  icon: Icon(Icons.skip_previous, color: Colors.white),
+                  onPressed: () {
+                    // Implement logic for skipping to the previous song
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 60),
-                  child: Icon(
-                    Icons.play_arrow,
+                  child: IconButton(
+                  icon: Icon(
+                    isPlaying ==true ? Icons.pause : Icons.play_arrow,
                     color: Colors.white,
                   ),
+                  onPressed: () {
+                    setState(() {
+                      
+                      if (isPlaying == true) {
+                          widget.audioPlayer.pause();
+                        } else {
+                          widget.audioPlayer.resume();
+                        }
+                    });
+                  },
                 ),
-                Icon(
-                  Icons.skip_next,
-                  color: Colors.white,
+                ),
+                 IconButton(
+                  icon: Icon(Icons.skip_next, color: Colors.white),
+                  onPressed: () {
+                    // Implement logic for skipping to the next song
+                  },
                 ),
               ],
             )
