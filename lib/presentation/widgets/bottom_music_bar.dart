@@ -36,7 +36,7 @@ class _BottomMusicBarState extends State<BottomMusicBar> {
       height: 80,
       child: Container(
         decoration: BoxDecoration(
-            color: AppConstants.bgColor,
+            color: Colors.grey.shade800,
             border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.all(16),

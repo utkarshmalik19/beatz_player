@@ -57,12 +57,33 @@ class _HomePageState extends State<HomePage> {
           filePath: file.path,
         ));
       }
+      audioPlayer.onPlayerComplete.listen((event) {
+      // Called when the current song completes
+      playNextSong();
+    });
       setState(() {});
     } else {
       print("Permission denied");
     }
   }
+void playNextSong() {
+    // Increment the selected song index to play the next song
+    int nextIndex = selectedSongIndex + 1;
 
+    // Check if there are more songs to play
+    if (nextIndex < songs.length) {
+      // Stop the currently playing song (if any)
+      audioPlayer.stop();
+
+      // Play the next song
+      playSong(nextIndex);
+    } else {
+      // No more songs in the list, you can handle this as needed
+      // For example, you can stop the player or loop back to the first song
+      // audioPlayer.stop();
+      // selectedSongIndex = -1; // Set to -1 to indicate no selected song
+    }
+}
   Future<void> _findAudioFiles(Directory directory, List<String> extensions,
       List<FileSystemEntity> audioFiles) async {
     final List<FileSystemEntity> files = directory.listSync();

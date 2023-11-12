@@ -18,6 +18,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
   void initState() {
     super.initState();
     // Listen to changes in the player state
+    
     isPlaying = widget.isPlaying;
     widget.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
       setState(() {
@@ -40,7 +41,7 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             // Image placeholder (replace with album art)
             SizedBox(
                 height: 300, child: Image.asset('assets/images/music.png')),
-
+                
             // Progress bar, play/pause button, next song, previous song buttons
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
