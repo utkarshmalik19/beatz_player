@@ -13,17 +13,31 @@ class CurrentSongScreen extends StatefulWidget {
 
 class _CurrentSongScreenState extends State<CurrentSongScreen> {
      late bool isPlaying ;
+     late double sliderValue;
+     Duration? duration;
 
     @override
   void initState() {
     super.initState();
     // Listen to changes in the player state
-    
+    sliderValue = 0.0;
     isPlaying = widget.isPlaying;
     widget.audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
       setState(() {
         isPlaying = state == PlayerState.playing;
       });
+    });
+     widget.audioPlayer.onPositionChanged.listen((Duration duration) {
+      setState(() {
+        sliderValue = duration.inMilliseconds.toDouble();
+      });
+    });
+     _initializeDuration();
+  }
+  Future<void> _initializeDuration() async {
+    final d = await widget.audioPlayer.getDuration();
+    setState(() {
+      duration = d;
     });
   }
   @override
@@ -45,11 +59,17 @@ class _CurrentSongScreenState extends State<CurrentSongScreen> {
             // Progress bar, play/pause button, next song, previous song buttons
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
-                    value: 0.5,
-                  )),
+              child: Slider(
+                value: sliderValue,
+                min: 0.0,                
+                max: duration?.inMilliseconds.toDouble() ?? 0.0,
+                onChanged: (double value){
+                  setState(() {
+                    sliderValue = value;
+                  });
+                  widget.audioPlayer.seek(Duration(milliseconds: value.toInt()));
+                },
+              )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
